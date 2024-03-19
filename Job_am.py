@@ -41,21 +41,29 @@ def Scrap_Whole_Pages():
     Job = driver.find_element(By.ID, 'w1').find_element(By.CLASS_NAME, "hs_nav_link")
     Job.click()
 
-    Scraping(driver.page_source)
+    
 
 
 
-    next = driver.find_element(By.CLASS_NAME, 'pagination').find_element(By.CLASS_NAME, 'next')
+
     while True:
-        Scraping(driver.page_source)
-        if 'disabled' in next.get_attribute('class'):
-            break
-        print(next.is_enabled())
+        next = driver.find_element(By.CLASS_NAME, 'pagination').find_element(By.CLASS_NAME, 'next')
+        stop = "disabled" in next.get_attribute('class')
         next.click()
         time.sleep(1)
+        Scraping(driver.page_source)
+        print(DataFrame)
+        if stop:
+            break
+        print(DataFrame)
+        # if 'disabled' in next.get_attribute('class'):
+        #     break
         
+        # next.click()
+        # Scraping(driver.page_source)
         
-        next = driver.find_element(By.CLASS_NAME, 'pagination').find_element(By.CLASS_NAME, 'next')
+        # print(next.is_enabled())
+        
     driver.quit()
     return
     
@@ -64,5 +72,5 @@ if __name__  == "__main__":
     url = "https://staff.am/en"
     DataFrame = pd.DataFrame(columns = ["Job_Name", "Company", "Deadline", "Location"])
     Scrap_Whole_Pages()
-    DataFrame.to_csv("Job_am_data", index=False)
+    DataFrame.to_csv("Job_am_data.csv", index=False)
     print(DataFrame)
